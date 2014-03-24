@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <!-- 公文管理 -->
+
+    	<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/header_bg" >
+
+        <Button
+            android:id="@+id/web_Button_back"
+            android:layout_width="40dip"
+            android:layout_height="30dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dip"
+            android:background="@drawable/back_an"
+             />
+
+        <TextView
+            android:id="@+id/web_tabbarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/app_name"
+            android:textColor="#FFFFFF"
+            android:textSize="18dip" />
+        
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal" >
+
+                    <WebView
+                        android:id="@+id/web_WebView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_above="@+id/web_bottom_linearLayout"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="3dp"
+                        android:hardwareAccelerated="true" />
+
+        <TableLayout
+            android:id="@+id/web_bottom_linearLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:stretchColumns="*"
+  			android:padding="3dip"
+  			android:gravity="center"
+            android:background="@drawable/footer_bg"
+             >
+            <TableRow>
+                <ImageView
+            		android:id="@+id/web_Button_bottom_Refresh"
+           			android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+           			android:src="@drawable/dban_01"
+            	 />
+                <ImageView
+            		android:id="@+id/web_Button_bottom_Back"        		
+           			android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+           			android:src="@drawable/dban_02"
+            	 />
+                <ImageView
+            		android:id="@+id/web_Button_bottom_Next"
+           			android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+           			android:src="@drawable/dban_03"
+            	 />
+                <ImageView
+                    android:id="@+id/web_Button_bottom_Share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/dban_04"
+                     />
+		</TableRow>
+        </TableLayout>
+    </RelativeLayout>
+
+</LinearLayout>

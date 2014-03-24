@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">神韵随州</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+	<string name="home_bar">随州新闻</string>
+	<string name="develop">正在开发中...</string>
+	
+	<string name="site_about">关于</string>
+	<string name="site_updates">更新设置</string>
+	<string name="site_update">检查更新</string>
+	
+	<string name="site_abouts">关于神韵随州</string>
+	<string name="site_text">我将每天为你呈现随州最及时的新闻资讯，让你倾刻了解随州动态</string>
+			
+	<string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+	<string name="albums_sendbyWBlog">分享</string>
+    <string name="this1">“神韵随州”是一个能随时随地通过手机了解随州文化/旅游/信息的掌上资讯平台。</string>
+    <string name="this2">掌上资讯平台通过综合随州新闻网，随州市人民政府网，随州电视台，随州日报各网站信息，全方面的介绍随州的人民风貌，历史文化，特色旅游等等。</string>
+    <string name="this3">更可以通过本平台计时获得最新的随州新闻，党政要闻及政务公开信息。</string>
+    <string name="this4">主办：随州市委宣传部</string>
+    <string name="this5">协办：中国联通随州市分公司</string>
+</resources>

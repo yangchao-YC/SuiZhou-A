@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/listviewbg"
+ >
+	<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:background="@drawable/header_bg" >
+
+        <Button
+            android:id="@+id/ListView_Button_back"
+            android:layout_width="40dip"
+            android:layout_height="30dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dip"
+            android:background="@drawable/back_an"
+            />
+
+        <TextView
+            android:id="@+id/ListView_tabBarText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#FFFFFF"
+            android:textSize="18dip"
+            android:text="yytttyyy" />
+		<Button
+            android:id="@+id/ListView_Button_site"
+            android:layout_width="40dip"
+            android:layout_height="30dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dip"
+            android:background="@drawable/set_an"
+            />
+    </RelativeLayout>
+   <RelativeLayout 
+       android:id="@+id/List_top_relative"
+       android:layout_width="fill_parent"
+       android:layout_height="150dp"
+       android:visibility="gone"
+      >
+       <android.support.v4.view.ViewPager
+	    android:id="@+id/viewpager"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	   />
+     
+       
+	<LinearLayout 
+	    android:id="@+id/ll"
+	    android:layout_width="fill_parent"
+	    android:layout_height="40dp"
+	    android:layout_alignParentBottom="true"
+	    android:layout_centerHorizontal="true"
+	    android:background="#60000000"
+	    android:gravity="center_horizontal"
+	    android:layout_marginBottom="1dp">
+
+		<ImageView
+		    android:id="@+id/List_top_image1"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:clickable="true"
+		    android:padding="6.0dip"
+		    android:layout_marginTop="20dp"
+		    android:src="@drawable/point" />
+  
+        <ImageView
+            android:id="@+id/List_top_image2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:padding="6.0dip"
+			android:layout_marginTop="10dp"
+            android:src="@drawable/point" />
+  
+        <ImageView  
+            android:id="@+id/List_top_image3"
+            android:layout_width="wrap_content"  
+            android:layout_height="wrap_content"  
+            android:layout_gravity="center_vertical"  
+            android:clickable="true"  
+            android:padding="6.0dip"  
+            android:layout_marginTop="10dp"
+            android:src="@drawable/point"/>  
+        <ImageView  
+            android:id="@+id/List_top_image4" 
+            android:layout_width="wrap_content"  
+            android:layout_height="wrap_content"  
+            android:layout_gravity="center_vertical"  
+            android:clickable="true"  
+            android:padding="6.0dip"  
+            android:layout_marginTop="10dp"
+            android:src="@drawable/point"/>  
+	</LinearLayout>
+	  <TextView 
+	    android:id="@+id/List_top_text"
+	    android:layout_width="fill_parent"
+	    android:layout_height="40dp"
+	    android:layout_alignParentBottom="true"
+	    android:layout_centerHorizontal="true"
+	    android:gravity="center_horizontal"
+	    android:text="yyaugyg"/>
+   </RelativeLayout>
+
+	<com.example.shenyunsuizhou.XListView
+            android:id="@+id/xListView"
+           
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:layout_margin="3dp"
+            android:cacheColorHint="#00000000" 
+            android:footerDividersEnabled="false"
+            android:divider="@null"
+            >
+        
+        </com.example.shenyunsuizhou.XListView>
+       
+</LinearLayout>
