@@ -317,7 +317,7 @@ public class ListViewActivity extends Activity implements IXListViewListener,OnC
 							Hashtable<String, String> hashtable = new Hashtable<String, String>();
 							hashtable.put(KEY_ID, test_Model.getId()==null? "": test_Model.getId());
 							hashtable.put(KEY_TITLE, test_Model.getTitle()==null? "": test_Model.getTitle());
-							hashtable.put(KEY_DESCRIPTION, test_Model.getDescription()==null? "": test_Model.getTitle());
+							hashtable.put(KEY_DESCRIPTION, test_Model.getDescription()==null? "": test_Model.getDescription());
 							hashtable.put(KEY_THUMB_URL, test_Model.getCnparams()==null? "": test_Model.getCnparams());
 							hashtable.put(KEY_ZCATEGORYURL, test_Model.getZcategoryurl()==null? "": test_Model.getZcategoryurl());
 							hashtable.put(KEY_ZCATEGORSTRINGS, test_Model.getZcategory()==null? "": test_Model.getZcategory());
@@ -506,6 +506,8 @@ public class ListViewActivity extends Activity implements IXListViewListener,OnC
 				else {
 
 				if (blockdata.get(0).get(KEY_ZCATEGORSTRINGS).equals("no")) {
+					
+					Articlecount(blockdata.get(arg2-1).get(KEY_ID));
 					WebViewActivity activityw = new WebViewActivity();
 					activityw.data =blockdata;
 					activityw.mark = arg2-1 +imageInt;
@@ -514,7 +516,7 @@ public class ListViewActivity extends Activity implements IXListViewListener,OnC
 				}
 				else {
 
-					count(blockdata.get(arg2-1).get(KEY_ID));
+				//	count(blockdata.get(arg2-1).get(KEY_ID));
 					intent = new Intent(ListViewActivity.this,ListViewActivity.class);
 					intent.putExtra("url",blockdata.get(arg2-1 +imageInt).get(KEY_ZCATEGORYURL));
 					intent.putExtra("tabText",blockdata.get(arg2-1 +imageInt).get(KEY_TITLE));
@@ -540,8 +542,7 @@ public class ListViewActivity extends Activity implements IXListViewListener,OnC
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
-					String countURL= "http://119.36.193.148/suizhou/api/articlec/"+key;
-					
+					String countURL= "http://119.36.193.147/index.php?option=com_content&view=category&layout=blog&aid="+key+"&statez=3";
 					Test_Bean data = DataManeger.getTestData(countURL);
 				} catch (Y_Exception e) {
 					// TODO Auto-generated catch block
@@ -553,26 +554,26 @@ public class ListViewActivity extends Activity implements IXListViewListener,OnC
 	}
 	
 	
-	private void count(final String key)
-	{
-		new Thread()
-		{
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					String countURL= "http://119.36.193.148/suizhou/api/categoryc/"+key;
-					
-					Test_Bean data = DataManeger.getTestData(countURL);
-				} catch (Y_Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-		}.start();
-	}
+//	private void count(final String key)
+//	{
+//		new Thread()
+//		{
+//
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				try {
+//					String countURL= "http://119.36.193.148/suizhou/api/categoryc/"+key;
+//					
+//					Test_Bean data = DataManeger.getTestData(countURL);
+//				} catch (Y_Exception e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			
+//		}.start();
+//	}
 	
 	private void onLoad() {
 		listView.stopRefresh();

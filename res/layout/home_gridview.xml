@@ -3,29 +3,31 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingBottom="4dip"
     android:gravity="center"
+ 
     >
-    <AbsoluteLayout
+   <!--  <AbsoluteLayout
         android:layout_width="75dip"
         android:layout_height="75dip" 
-        >  
+        >  -->
         <ImageView 
             android:id="@+id/Home_Grid_Image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="75dip"
+            android:layout_height="75dip" 
+            android:layout_marginTop="20dp"
             android:layout_x="0px"
             android:layout_y="0px"
             android:src="@drawable/home1"/>
         
-    </AbsoluteLayout>
+    <!-- </AbsoluteLayout> -->
     <TextView 
         android:id="@+id/Home_Grid_Text_Name"
-        android:layout_width="80dip"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="5dp"
+        android:layout_width="75dip"
+        android:layout_height="34dip"
+        android:layout_marginTop="3dp"
+        android:maxLines="2"
+        android:gravity="center_horizontal"
         android:textColor="@android:color/white"
-        android:textSize="14dp"
+        android:textSize="13dp"
        />
     </LinearLayout>

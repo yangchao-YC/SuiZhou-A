@@ -34,7 +34,7 @@
              android:textSize="18dip" />
 
     </RelativeLayout>
-    <GridView 
+   <!--  <GridView 
    	    android:id="@+id/Home_GridView"
    	    android:layout_width="fill_parent"
    	    android:layout_height="fill_parent"
@@ -49,8 +49,44 @@
    	    android:gravity="center"
    	    >
    	    
-   	</GridView>
-   		<LinearLayout 
+   	</GridView> -->
+   	
+   	<LinearLayout   	    
+   	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_below="@+id/Home_TOP"
+	    android:layout_above="@+id/ll"
+	    android:id="@+id/linealayout_scrollview"
+	    android:orientation="horizontal" 
+   	    >  	    
+   	   
+   	     <!-- 
+   	    <LinearLayout 
+	    android:id="@+id/container"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal" >	
+	    </LinearLayout>
+   	    -->
+   
+   	</LinearLayout>
+    <!-- 	<com.example.shenyunsuizhou.MyScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_below="@+id/Home_TOP"
+    android:layout_above="@+id/ll"
+    android:id="@+id/scoll_view"
+    >
+    <LinearLayout 
+	    android:id="@+id/container"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="horizontal" >	
+	</LinearLayout>
+   
+  </com.example.shenyunsuizhou.MyScrollView> -->
+   	
+	<LinearLayout 
 	    android:id="@+id/ll"
 	    android:layout_width="fill_parent"
 	    android:layout_height="40dp"
@@ -60,12 +96,13 @@
 	    android:layout_marginBottom="1dp">
 	
 	<RadioGroup 
-	    android:layout_width="fill_parent"
+	    android:id="@+id/group_button"
+	    android:layout_width="wrap_content"
 	    android:layout_height="fill_parent"
 	    android:orientation="horizontal"
 	    android:gravity="center"
 	    android:layout_gravity="center">
-		<RadioButton
+		<!-- <RadioButton
 		    android:id="@+id/Home_top_image1"
 		    android:layout_width="9dp"
 		    android:layout_height="9dp"
@@ -87,8 +124,8 @@
             android:layout_gravity="center_vertical"  
             android:layout_marginLeft="15dp"
             android:button="@null" 
-            android:background="@drawable/radio"/>  
+            android:background="@drawable/radio"/>   -->
       </RadioGroup>      
       </LinearLayout>
- 	
+
 </RelativeLayout>

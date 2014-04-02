@@ -121,23 +121,23 @@ public class WebViewActivity extends Activity implements android.view.View.OnCli
 	
 	private void count(final String key)
 	{
-		new Thread()
-		{
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					String countURL= "http://119.36.193.148/suizhou/api/articlec/"+key;
-					
-					Test_Bean data = DataManeger.getTestData(countURL);
-				} catch (Y_Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-		}.start();
+//		new Thread()
+//		{
+//
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				try {
+//					String countURL= "http://119.36.193.148/suizhou/api/articlec/"+key;
+//					
+//					Test_Bean data = DataManeger.getTestData(countURL);
+//				} catch (Y_Exception e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//			
+//		}.start();
 	}
 	
 	/**

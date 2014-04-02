@@ -19,87 +19,114 @@ package com.example.shenyunsuizhou.json;
 public class Test_Model {
 
 	
-	private String Id;
-	private String Title;
-	private String Note;
-	private String Modified_Time;
-	private String CnParams;
-	private String Description;
-	private String ZCategory;
-	private String ZCategoryUrl;
-	private String IntroText;
-
+	private String id;
+	private String title;
+	private String note;
+	private String modified_time;
+	private String cnparams;
+	private String description;
+	private String zcategory;
+	private String zcategoryurl;
+	private String introtext;
 	
+	private String stype;
+    private String metakey;
+    private String metadesc;
+	
+	public String getMetadesc() {
+		return metadesc;
+	}
+
+	public void setMetadesc(String metadesc) {
+		this.metadesc = metadesc;
+	}
+
+	public String getMetakey() {
+		return metakey;
+	}
+
+	public void setMetakey(String metakey) {
+		this.metakey = metakey;
+	}
+
+	public String getStype() {
+		return stype;
+	}
+
+	public void setStype(String stype) {
+		this.stype = stype;
+	}
+
 	public String getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(String Id) {
-		this.Id = Id;
+		this.id = Id;
 	}
 	
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 
 	public void setTitle(String Title) {
-		this.Title = Title;
+		this.title = Title;
 	}
 	
 	public String getNote() {
-		return Note;
+		return note;
 	}
 
 	public void setNote(String Note) {
-		this.Note = Note;
+		this.note = Note;
 	}
 	
 	public String getModifiedTime() {
-		return Modified_Time;
+		return modified_time;
 	}
 
 	public void setModifiedTime(String Modified_Time) {
-		this.Modified_Time = Modified_Time;
+		this.modified_time = Modified_Time;
 	}
 
 	public String getCnparams() {
-		return CnParams;
+		return cnparams;
 	}
 
 	public void setCnparams(String CnParams) {
-		this.CnParams = CnParams;
+		this.cnparams = CnParams;
 	}
 	
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 	public void setDescription(String Description) {
-		this.Description = Description;
+		this.description = Description;
 	}
 	
 	public String getZcategory() {
-		return ZCategory;
+		return zcategory;
 	}
 
 	public void setZcategory(String ZCategory) {
-		this.ZCategory = ZCategory;
+		this.zcategory = ZCategory;
 	}
 
 	public String getZcategoryurl() {
-		return ZCategoryUrl;
+		return zcategoryurl;
 	}
 
 	public void setZcategoryurl(String ZCategoryUrl) {
-		this.ZCategoryUrl = ZCategoryUrl;
+		this.zcategoryurl = ZCategoryUrl;
 	}
 
 	public String getIntrotext()
 	{
-		return IntroText;
+		return introtext;
 	}
 	public void	setIntrotext(String IntroText)
 	{
-		this.IntroText = IntroText;
+		this.introtext = IntroText;
 	}
 }

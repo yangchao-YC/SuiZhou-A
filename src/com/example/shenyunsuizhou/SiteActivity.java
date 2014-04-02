@@ -40,7 +40,7 @@ public class SiteActivity extends Activity implements android.view.View.OnClickL
 	private String packsString =null;
 	private String upadteURL =null;
 	private ProgressDialog progressDialog;
-	private String urlString ="http://119.36.193.148/suizhou/api/categories/155?op=all";//更新地址
+	private String urlString ="http://119.36.193.147/index.php?option=com_content&view=category&layout=blog&id=155&statez=1";//更新地址
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +79,16 @@ public class SiteActivity extends Activity implements android.view.View.OnClickL
 				try {
 					Test_Bean data = DataManeger.getTestData(urlString);
 					ArrayList<Test_Model> datalist = data.getData();
-					for (Test_Model test_Model : datalist) {
+					
+					packsString = datalist.get(0).getNote();
+					upadteURL = datalist.get(0).getMetadesc();
+					/*for (Test_Model test_Model : datalist) {
 
 						
 						packsString = String.valueOf(test_Model.getTitle());
 						upadteURL = String.valueOf(test_Model.getDescription());
 						break;
-					}
+					}*/
 				} catch (Y_Exception e) {
 					e.printStackTrace();
 				}
@@ -102,6 +105,7 @@ public class SiteActivity extends Activity implements android.view.View.OnClickL
 			// TODO Auto-generated method stub
 			progressDialog.dismiss();
 			String verString = String.valueOf(vercode);
+			
 			if (packsString.equals(verString)) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(SiteActivity.this);
 				builder.setTitle("当前版本是最新");
