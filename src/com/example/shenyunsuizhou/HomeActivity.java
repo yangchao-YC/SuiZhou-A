@@ -79,10 +79,8 @@ public class HomeActivity extends Activity{
 	private String vercode;
 	private static String packgeName;
 	private ProgressDialog progressDialog;
-	private String packsString =null;
-	private String upadteURL =null;
+
 	//private String urlString ="http://119.36.193.148/suizhou/api/categories/155?op=all";//更新地址
-	private String urlString ="http://119.36.193.147/index.php?option=com_content&view=category&layout=blog&id=155&statez=1";//更新地址
 	
 
 	
@@ -290,63 +288,13 @@ public class HomeActivity extends Activity{
         gridView[pageNum].setAdapter(adapter);	
         
 	}
-	
-	
-	
-	/**
-	 * 获取GridView数据
-	 * count为九宫格页面设置基数，布局文件内设置每行最多为3个，此参数控制每页最多显示9个图标
-	 * 
-	 */
-	/*private void Grid() {
-		
-		int count =9;
-		//判断当前为第几页，根据页数计算当前页该显示多少模块图标，显示哪些模块图标
-		if ((images.length - ((mark +1)*9))<0) {
-			Log.v("--93-", ""+mark);
-			count = images.length;
-		}
-		else {
-			Log.v("--97-", ""+mark);
-			count = (mark +1) *9;
-		}
-		arrayList = new ArrayList<HashMap<String, Object>>();
-		//根据当前的页数填充显示信息
-		for (int i = (mark*9); i < count; i++) {
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("ItemImage", images[i]);
-			map.put("ItemText", nameStrings[i]);
-			arrayList.add(map);
-		}
-		
-		//判断当前页面设置下面页面图片该选中哪个
-		if (mark == 0) {
-			oneRadioButton.setChecked(true);
-		}
-		if (mark == 1) {
-			twoRadioButton.setChecked(true);
-		}
-		if (mark == 2) {
-			threeRadioButton.setChecked(true);
-		}
-		SimpleAdapter adapter = new SimpleAdapter(HomeActivity.this, arrayList,
-				R.layout.home_gridview, new String[] { "ItemImage",
-						"ItemText" }, new int[] {
-						R.id.Home_Grid_Image, R.id.Home_Grid_Text_Name });
-		gridView.setAdapter(adapter);
-		
-		
-	}*/
-	
-	
-	
-	
+
 	
 	/**
 	 * 根据原始程序分析每个模块的显示信息
-	 * 直接跳转至网页页面为：联通营业厅，公积金帐号	索引号为 14，15号
-	 * 跳一级列表然后直接跳转至网页页面为：主持人微博，企业风采（3个），索引号为7，8，9，12
-	 * 跳转至开发页面为：社保账户，医保帐号，评选活动，关于本应用页面（显示本应用介绍） 索引号为17，18，21，11
+	 * 直接跳转至网页页面为：联通营业厅，公积金帐号	
+	 * 跳一级列表然后直接跳转至网页页面为：主持人微博，企业风采（3个），
+	 * 跳转至开发页面为：社保账户，医保帐号，评选活动，关于本应用页面（显示本应用介绍） 
 	 */
 	class GridOnClick implements OnItemClickListener{
         
@@ -381,44 +329,6 @@ public class HomeActivity extends Activity{
 			 else if (stype[arg2].equals("weblist")) {
 				 webPush(arg2);
 			}
-			/* else if (stype[arg2].equals("aboutus")) {
-				 developPush(arg2,"aboutus");
-			}
-			 else if (condition) {
-				
-			}*/
-			 
-			 /*
-			if (arg2==15  || arg2 == 16) {
-				if (arg2 ==15) {
-					intent = new Intent(HomeActivity.this,WebActivity.class);
-					intent.putExtra("tabText", nameStrings[arg2]);
-					intent.putExtra("url", "http://mob.10010.com/");
-					startActivity(intent);
-				}
-				if (arg2 == 16) {
-					intent = new Intent(HomeActivity.this,WebActivity.class);
-					intent.putExtra("tabText", nameStrings[arg2]);
-					intent.putExtra("url", "http://www.suizhougjj.cn/");
-					startActivity(intent);
-				}
-			}
-			else if (arg2 ==7 || arg2 ==8 || arg2 ==9 ||arg2 ==10 || arg2 ==12) 
-			{
-				count(arg2);
-				webPush(arg2);
-				
-			}
-			else if (arg2 ==17 || arg2 ==18 || arg2 ==21 || arg2 ==11) 
-			{
-				developPush(arg2);
-			}
-			else {
-				count(arg2);
-				Push(arg2);
-			}
-			 
-			*/
 		}
 		
 	}
@@ -542,50 +452,7 @@ public class HomeActivity extends Activity{
 	}*/
 
 	
-	private void packge() {
-		packgeName = this.getPackageName();
-		vercode = HomeActivity.getVerCode(this);//版本号
-		Log.v("----", "--"+vercode);
-		packgeThread();
-		
-		
-	}
-	
-	public static String getVerCode(Context context) {
-		String verCode = "-1";
-		try {
-			verCode = context.getPackageManager().getPackageInfo(packgeName, 0).versionName;
-		} catch (NameNotFoundException e) {
-			Log.e("log", e.getMessage());
-		}
-		return verCode;
-	}
-	private void packgeThread()
-	{
-		//progressDialog = ProgressDialog.show(HomeActivity.this, "", "正在检查更新", true, false);
-		//progressDialog.setCancelable(true);//设置是否可以使用返回键取消
-		new Thread()
-		{
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					Test_Bean data = DataManeger.getTestData(urlString);
-					ArrayList<Test_Model> datalist = data.getData();
-					
 
-						
-						packsString = String.valueOf(datalist.get(0).getNote());
-						upadteURL = String.valueOf(datalist.get(0).getMetadesc());
-						
-					handler.sendEmptyMessage(1);
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
-	}
 	
 	private Handler handler = new Handler()
 	{
@@ -593,20 +460,7 @@ public class HomeActivity extends Activity{
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 		//	progressDialog.dismiss();
-			Log.v("---",String.valueOf(msg.what));
-			String verString = String.valueOf(vercode);
-			Log.v("------6840-----", verString+"   "+packsString);
 			
-			if (packsString.equals(verString)) {
-				
-			}
-			else {
-				UpdateManager updateManager = new UpdateManager(HomeActivity.this);
-				updateManager.updateMsg = "当前最新版本为:"+packsString;
-			    updateManager.apkUrl = upadteURL;
-				updateManager.checkUpdateInfo();
-				
-			}
 		}
 		
 	};

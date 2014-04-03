@@ -26,8 +26,10 @@ import android.os.Message;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,7 +44,13 @@ public class Launch extends Activity {
 	private Timer timer = new Timer();
 	private TimerTask task;
 	private FinalDb db;
+	private static String packgeName;
+	private String vercode;
+	private String packsString =null;
+	private String upadteURL =null;
 	
+	private String UpdateUrlString ="http://119.36.193.147/index.php?option=com_content&view=category&layout=blog&id=155&statez=1";//更新地址
+
 	//private String urlString ="http://121.199.29.181/demo/joomla/suizhou/index.php?option=com_content&view=category&layout=blog&id=1&statez=1";
 	private String urlString ="http://119.36.193.147/index.php?option=com_content&view=category&layout=blog&id=1&statez=1";
 	private ArrayList<HashMap<String, String>> dateMap =  new ArrayList<HashMap<String, String>>();	
@@ -81,10 +89,15 @@ public class Launch extends Activity {
   
         urlString = urlString+"&userid="+userId+"&model="+model;
 		
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("update");
+        registerReceiver(myReceiver, intentFilter);
+        
+        
 		if (normal.note_Intent()) {
 			//progressDialog = ProgressDialog.show(Launch.this, "", "正在刷新...", true, false);		
-			downloadInfo();
-				 
+			//
+				packge(); 
 		}
 		else {
 			Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();				
@@ -95,6 +108,52 @@ public class Launch extends Activity {
 		
 	}
 
+	
+	private void packge() {
+		packgeName = this.getPackageName();
+		vercode = Launch.getVerCode(this);//版本号
+		Log.v("----", "--"+vercode);
+		packgeThread();
+		
+		
+	}
+	
+	public static String getVerCode(Context context) {
+		String verCode = "-1";
+		try {
+			verCode = context.getPackageManager().getPackageInfo(packgeName, 0).versionName;
+		} catch (NameNotFoundException e) {
+			Log.e("log", e.getMessage());
+		}
+		return verCode;
+	}
+	private void packgeThread()
+	{
+		//progressDialog = ProgressDialog.show(HomeActivity.this, "", "正在检查更新", true, false);
+		//progressDialog.setCancelable(true);//设置是否可以使用返回键取消
+		new Thread()
+		{
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					Test_Bean data = DataManeger.getTestData(UpdateUrlString);
+					ArrayList<Test_Model> datalist = data.getData();
+					
+
+						
+						packsString = String.valueOf(datalist.get(0).getNote());
+						upadteURL = String.valueOf(datalist.get(0).getMetadesc());
+						
+					handler.sendEmptyMessage(3);
+				} 
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
+	
 	
 	private void downloadInfo() {
 		// TODO Auto-generated method stub
@@ -142,6 +201,22 @@ public class Launch extends Activity {
 				break;	
 			case 2:
 				timeStart();			
+				break;
+				
+			case 3:
+				Log.v("---",String.valueOf(msg.what));
+				String verString = String.valueOf(vercode);
+				Log.v("------6840-----", verString+"   "+packsString);
+				
+				if (packsString.equals(verString)) {
+					downloadInfo();
+				}
+				else {
+					UpdateManager updateManager = new UpdateManager(Launch.this);
+					updateManager.updateMsg = "当前最新版本为:"+packsString;
+				    updateManager.apkUrl = upadteURL;
+					updateManager.checkUpdateInfo();
+				}
 				break;
 			default:
 				break;
@@ -290,7 +365,18 @@ public class Launch extends Activity {
 	}
 	
 	
-	
+	private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			String action = intent.getAction();  
+	          if (action.equals("update"))  
+	          {  
+	        	  downloadInfo();
+	          } 
+		}
+	};
 	
 	@Override
 	protected void onPause() {

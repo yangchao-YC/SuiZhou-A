@@ -94,12 +94,24 @@ public class UpdateManager {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
+				if ((mContext.getClass()).equals(Launch.class)) {
+					receiver();
+				}
+				
 			}
 		});
 		noticeDialog = builder.create();
 		noticeDialog.show();
 	}
 
+	
+	private void receiver()
+	{
+		Intent intent = new Intent();
+		intent.setAction("update");
+		mContext.sendBroadcast(intent);
+	}
+	
 	private void showDownloadDialog() {
 		AlertDialog.Builder builder = new Builder(mContext);
 		builder.setTitle("软件版本更新");
@@ -114,6 +126,11 @@ public class UpdateManager {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 				interceptFlag = true;
+				
+				if ((mContext.getClass()).equals(Launch.class)) {
+					receiver();
+				}
+				
 			}
 		});
 		downloadDialog = builder.create();
