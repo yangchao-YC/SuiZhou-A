@@ -1,5 +1,6 @@
 package com.example.shenyunsuizhou;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
@@ -22,6 +23,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -111,6 +115,8 @@ public class HomeActivity extends Activity{
 	
 	public static HashMap<String, Object> listInfo = new HashMap<String, Object>();
 	
+	private  String Internet = null;
+	
 	private MyScrollView scollview;
 	private int downX = 0;
 	//private String[] filename; //图片名
@@ -131,6 +137,8 @@ public class HomeActivity extends Activity{
 	    twoRadioButton = (RadioButton)findViewById(R.id.Home_top_image2);
 	    threeRadioButton = (RadioButton)findViewById(R.id.Home_top_image3);
 	    */
+		Internet = getIntent().getExtras().getString("Internet");
+		
 	    radioGroup = (RadioGroup)findViewById(R.id.group_button);
 	    
 	    scollLinearLayout =  (LinearLayout) findViewById(R.id.linealayout_scrollview);
@@ -198,6 +206,7 @@ public class HomeActivity extends Activity{
         	Grid(i);
             mContainer.addView(gridView[i]);
             //gridView[i].setLongClickable(true);
+            gridView[i].setSelector(new ColorDrawable(Color.TRANSPARENT));
             gridView[i].setClickable(true);
             gridView[i].setOnItemClickListener(new GridOnClick(i));
             gridView[i].setOnTouchListener(new OnTouchListener() {
@@ -260,10 +269,27 @@ public class HomeActivity extends Activity{
 				
 		arrayList = new ArrayList<HashMap<String, Object>>();
 		for (int i = pageNum*9; i < count; i++) {
-			HashMap<String, Object> map = new HashMap<String, Object>();				
-			map.put("ItemImage",bitmaps.get(i));
-			map.put("ItemText", title[i]);
-			arrayList.add(map);
+			if (Internet.equals("YES")) {
+				HashMap<String, Object> map = new HashMap<String, Object>();				
+				map.put("ItemImage",bitmaps.get(i));
+				map.put("ItemText", title[i]);
+				arrayList.add(map);
+			}
+			else {
+				Bitmap bmBitmap = null;
+				HashMap<String, Object> map = new HashMap<String, Object>();				
+					
+			    File file = new File(Launch.ALBUM_PATH+id[i]+".png");
+				if(file.exists())   { 
+				  map.put("ItemImage",getBitMap(Launch.ALBUM_PATH+id[i]+".png"));
+				  }
+				map.put("ItemText", title[i]);
+				arrayList.add(map);
+				System.gc();
+			}
+			
+			//}
+			
 		}
 	
         SimpleAdapter adapter = new SimpleAdapter(HomeActivity.this, arrayList,R.layout.home_gridview, 
@@ -451,7 +477,28 @@ public class HomeActivity extends Activity{
 		return false;
 	}*/
 
-	
+	/**
+	    * 加载本地图片
+	    * @param url
+	    * @return
+	    */
+	    public static Bitmap getBitMap(String url) {
+	         try {
+	        	 
+	        	// int inSampleSize = getinSampleSize(String url);
+	        	 
+	        	 BitmapFactory.Options options = new BitmapFactory.Options();
+	        	// options.inJustDecodeBounds = false;
+	        	// options.inSampleSize = 2;
+	        	 Bitmap bitmap = BitmapFactory.decodeFile(url, options);   
+	        	 return bitmap;
+
+	           } catch (Exception e) {
+				// TODO: handle exception
+	        	   Log.v("----328----", e.getMessage());
+	        	   return null;
+			}
+	    }
 
 	
 	private Handler handler = new Handler()

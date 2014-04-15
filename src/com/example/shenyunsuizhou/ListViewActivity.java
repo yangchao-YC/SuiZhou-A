@@ -292,6 +292,7 @@ public class ListViewActivity extends Activity implements IXListViewListener,OnC
 					user.setModifiedTime(blockdata.get(i).get(KEY_TIME));
 					user.setZcategoryurl(blockdata.get(i).get(KEY_ZCATEGORYURL));
 					user.setZcategory(blockdata.get(i).get(KEY_ZCATEGORSTRINGS));
+					
 					db.save(user);
 				}
 			}

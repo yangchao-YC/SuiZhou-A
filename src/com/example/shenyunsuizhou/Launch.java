@@ -1,6 +1,10 @@
 package com.example.shenyunsuizhou;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -42,6 +46,7 @@ import android.widget.Toast;
 public class Launch extends Activity {
 
 	private Timer timer = new Timer();
+	private Timer timer2 = new Timer();
 	private TimerTask task;
 	private FinalDb db;
 	private static String packgeName;
@@ -56,10 +61,10 @@ public class Launch extends Activity {
 	private ArrayList<HashMap<String, String>> dateMap =  new ArrayList<HashMap<String, String>>();	
 	//private ProgressDialog progressDialog; //刷新数据时的框
 	Normal normal; //连网的判断
-	private final static String ALBUM_PATH = Environment.getExternalStorageDirectory() + "/download_suizhou/"; 
+	public final static String ALBUM_PATH = Environment.getExternalStorageDirectory() + "/download_suizhou/"; 
 	 
 	private String[] filename; //图片名
-	//private Bitmap[] mBitmap;	 
+	private Bitmap[] mBitmap;	 
 	private String[] id;
 	private String[] title;
 	private String[] zcategoryurl;
@@ -95,27 +100,86 @@ public class Launch extends Activity {
         
         
 		if (normal.note_Intent()) {
-			//progressDialog = ProgressDialog.show(Launch.this, "", "正在刷新...", true, false);		
-			//
 				packge(); 
+				
+				Log.v("测试定时器", "开始");
+				task = new TimerTask() {
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						Log.v("测试定时器", "结束");
+						timer2.cancel();	
+							Toast.makeText(getApplicationContext(), "连接超时", Toast.LENGTH_SHORT).show();						
+					}
+				};
+				timer2.schedule(task,30000,30000);
+	
 		}
 		else {
-			Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();				
+			//Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();	
+			
+			selectDate();
 		}	
-		
-	
-						
-		
+
 	}
 
+	
+	private void selectDate()
+	{
+		List<UserLaunch> list = db.findAllByWhere(UserLaunch.class, null);
+		id = new String[list.size()];
+		title = new String[list.size()];
+		zcategoryurl = new String[list.size()];
+		stype = new String[list.size()];
+		metakey = new String[list.size()];
+		if ( list.size() != 0 ) {
+			for (int i = 0; i < list.size(); i++) {
+			id[i]= (list.get(i).getInfoID()==null? "": list.get(i).getInfoID());
+			title[i]= (list.get(i).getTitle()==null? "": list.get(i).getTitle());
+			zcategoryurl[i]= (list.get(i).getZcategoryurl()==null? "": list.get(i).getZcategoryurl());
+			stype[i]= (list.get(i).getStype()==null? "": list.get(i).getStype());
+			metakey[i]= (list.get(i).getMetakey()==null? "": list.get(i).getMetakey());
+			}
+				
+			listInfo.put("id", id);
+            listInfo.put("title", title);
+            listInfo.put("zcategoryurl", zcategoryurl);
+            listInfo.put("stype", stype);
+            listInfo.put("metakey", metakey);
+			NoInternet();
+	   }	
+		else {
+			Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();	
+		}
+	}
+	
+	private void NoInternet()
+	{
+		task = new TimerTask() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				
+				timer.cancel();
+				Intent intent = new Intent(Launch.this,HomeActivity.class);
+			    HomeActivity.bitmaps = bitmaps;
+			    HomeActivity.listInfo = listInfo;
+			    intent.putExtra("Internet", "NO");
+				startActivity(intent);
+				finish();
+			}
+		};
+		
+		timer.schedule(task, 1000,1000);
+	}
 	
 	private void packge() {
 		packgeName = this.getPackageName();
 		vercode = Launch.getVerCode(this);//版本号
 		Log.v("----", "--"+vercode);
 		packgeThread();
-		
-		
+
 	}
 	
 	public static String getVerCode(Context context) {
@@ -197,10 +261,11 @@ public class Launch extends Activity {
 				break;
 			case 1:	
 				//progressDialog.dismiss();
-				handler.sendEmptyMessage(2);			
+				timer2.cancel();	
+				handler.sendEmptyMessage(4);			
 				break;	
 			case 2:
-				timeStart();			
+				dateBase();		
 				break;
 				
 			case 3:
@@ -212,17 +277,48 @@ public class Launch extends Activity {
 					downloadInfo();
 				}
 				else {
+					
+					timer2.cancel();	
+					
 					UpdateManager updateManager = new UpdateManager(Launch.this);
 					updateManager.updateMsg = "当前最新版本为:"+packsString;
 				    updateManager.apkUrl = upadteURL;
 					updateManager.checkUpdateInfo();
 				}
 				break;
+				
+			case 4:
+           		delete();
+           		break;
+           		
+           	case 5:
+           		timeStart();
+           		break;
 			default:
 				break;
 			}
 		}	
 	};
+	
+	
+	private void dateBase()
+	{
+		db.deleteByWhere(UserLaunch.class, null);
+		for (int i = 0; i < id.length; i++) {
+			UserLaunch launch = new UserLaunch();
+			launch.setInfoID(id[i]);
+			launch.setTitle(title[i]);
+			launch.setZcategoryurl(zcategoryurl[i]);
+			launch.setStype(stype[i]);
+			launch.setMetakey(metakey[i]);
+			db.save(launch);
+		}
+
+		
+		handler.sendEmptyMessage(5);
+		
+	}
+	
 	
 	 /* 
      * 连接网络 
@@ -234,15 +330,16 @@ public class Launch extends Activity {
             try {  
               
             	filename = new String[dateMap.size()];
-            	//mBitmap = new Bitmap[dateMap.size()];           	
+            	mBitmap = new Bitmap[dateMap.size()];           	
             	id = new String[dateMap.size()];
             	title = new String[dateMap.size()];
             	zcategoryurl = new String[dateMap.size()];  
             	stype = new String[dateMap.size()];
             	metakey = new String[dateMap.size()];
             	for (int i = 0; i < dateMap.size(); i++) {
-					filename[i] = i+".jpg";
+					
 					id[i] = dateMap.get(i).get("id");
+					filename[i] = id[i]+".png";
 					title[i] = dateMap.get(i).get("title");
 					zcategoryurl[i] = dateMap.get(i).get("zcategoryurl");
 					stype[i] = dateMap.get(i).get("stype");
@@ -250,7 +347,7 @@ public class Launch extends Activity {
 					byte[] data = getImage(dateMap.get(i).get("cnparams")); 
 					 if(data!=null){  
 						  bitmaps.add(BitmapFactory.decodeByteArray(data, 0, data.length));
-		                  //  mBitmap[i] = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap  
+		                  mBitmap[i] = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap  
 		                }
 				}  
             	
@@ -288,6 +385,76 @@ public class Launch extends Activity {
         }  
         return null;  
     }  
+    
+    
+    /**
+     * 删除图片后添加
+     */
+    private void delete() {
+		// TODO Auto-generated method stub
+    	
+    	for (int i = 0; i < filename.length; i++) {
+    		 File file=new File(ALBUM_PATH+filename[i]);  
+             if(file.exists()){                  
+          	   file.delete();         	   
+          	   StorageThread();
+             }else{  
+                 StorageThread();
+             }  
+		}
+    	
+            
+	}
+    
+    private void StorageThread()
+  	{
+  		new Thread()
+  		{
+
+  			@Override
+  			public void run() {
+  				// TODO Auto-generated method stub
+  				try {  
+  					
+  					for (int i = 0; i < filename.length; i++) {
+  						 saveFile(mBitmap[i], filename[i]); 
+					}
+  	                //保存图片
+  	            } catch (IOException e) {    
+  	                e.printStackTrace();  
+  	            } 
+  			}
+  			
+  		}.start();
+  		
+  		handler.sendEmptyMessage(2);
+  	}
+
+    
+    
+    /** 
+     * 保存文件 
+     * @param bm 
+     * @param fileName 
+     * @throws IOException 
+     */  
+    public void saveFile(Bitmap bm, String fileName) throws IOException {  
+    	
+        File dirFile = new File(ALBUM_PATH);  
+        if(!dirFile.exists()){  //判断是否有这个文件夹，有的话就创建，没有将创建
+        
+            dirFile.mkdir();  //创建一个新文件夹
+        }  
+        File myCaptureFile = new File(ALBUM_PATH + fileName);  
+        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));  
+        bm.compress(Bitmap.CompressFormat.PNG, 80, bos);  
+        bos.flush();  
+        bos.close();  
+    }
+
+    
+    
+    
     
     /** 
      * Get data from stream 
@@ -354,6 +521,7 @@ public class Launch extends Activity {
 				//intent.putExtra("title", title);
 				//intent.putExtra("stype", stype);
 				//intent.putExtra("zcategoryurl", zcategoryurl);
+				intent.putExtra("Internet", "YES");
 			    HomeActivity.bitmaps = bitmaps;
 			    HomeActivity.listInfo = listInfo;
 				startActivity(intent);
@@ -363,6 +531,7 @@ public class Launch extends Activity {
 		
 		timer.schedule(task, 1000,1000);
 	}
+	
 	
 	
 	private BroadcastReceiver myReceiver = new BroadcastReceiver() {
